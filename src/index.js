@@ -1,12 +1,14 @@
 import { useMotionValue, useTransform, motion } from 'framer-motion';
 import React, { useLayoutEffect, useRef, useState } from 'react';
+import PhotoSwipeLightbox from 'photoswipe/lightbox';
+import 'photoswipe/style.css';
 import withLocale from './withLocale';
 import style from './style.module.scss';
 
 const MIN_SCALE = 0.7;
 const MAX_SCALE = 1;
 
-const TimelineItem = ({ item }) => {
+const TimelineItem = ({ item, galleryId }) => {
   const itemRef = useRef(null);
   const scaleProgress = useMotionValue(MIN_SCALE);
 
@@ -21,9 +23,7 @@ const TimelineItem = ({ item }) => {
       const viewportH = window.innerHeight;
       const midpoint = viewportH * 0.5;
       const itemCenter = rect.top + rect.height * 0.5;
-      // 距离视口中线的比例，0=正中间，1=最远
       const distRatio = Math.min(Math.abs(midpoint - itemCenter) / (viewportH * 0.5), 1);
-      // 越近越大，越远越小
       const scale = MIN_SCALE + (MAX_SCALE - MIN_SCALE) * (1 - distRatio);
       scaleProgress.set(scale);
     };
@@ -35,6 +35,8 @@ const TimelineItem = ({ item }) => {
 
   const scaleTransform = useTransform(scaleProgress, [MIN_SCALE, MAX_SCALE], [MIN_SCALE, MAX_SCALE]);
 
+  const { title, content, images, extra } = item;
+
   return (
     <div ref={itemRef} className={style.item}>
       <div className={style.sticky}>
@@ -42,13 +44,29 @@ const TimelineItem = ({ item }) => {
           <div className={style.dot} />
         </div>
         <motion.h3 className={style.itemTitleDesktop} style={{ scale: scaleTransform }}>
-          {item.title}
+          {title}
         </motion.h3>
       </div>
 
       <div className={style.content}>
-        <h3 className={style.itemTitleMobile}>{item.title}</h3>
-        {item.content}
+        <h3 className={style.itemTitleMobile}>{title}</h3>
+        {content && <p className={style.contentText}>{content}</p>}
+        {images && images.length > 0 && (
+          <div className={`${style.imageGrid} pswp-gallery`} data-count={images.length > 4 ? 4 : images.length} data-gallery-id={galleryId}>
+            {images.slice(0, 4).map((img, index) => {
+              const src = typeof img === 'string' ? img : img.src;
+              const alt = typeof img === 'string' ? '' : img.alt || '';
+              const width = typeof img === 'string' ? 1200 : img.width || 1200;
+              const height = typeof img === 'string' ? 800 : img.height || 800;
+              return (
+                <a key={index} className={style.imageLink} href={src} target="_blank" data-pswp-width={width} data-pswp-height={height} data-cropped="true" onClick={e => e.preventDefault()}>
+                  <img src={src} alt={alt} className={style.image} loading="lazy" />
+                </a>
+              );
+            })}
+          </div>
+        )}
+        {extra && <div className={style.extra}>{extra}</div>}
       </div>
     </div>
   );
@@ -58,6 +76,7 @@ const TimelineInner = ({ data, title, description }) => {
   const ref = useRef(null);
   const [height, setHeight] = useState(0);
   const scrollProgress = useMotionValue(0);
+  const galleryId = useRef(`pswp-gallery-${Math.random().toString(36).substr(2, 9)}`).current;
 
   useLayoutEffect(() => {
     const updateHeight = () => {
@@ -97,6 +116,24 @@ const TimelineInner = ({ data, title, description }) => {
     return () => observer.disconnect();
   }, [data, scrollProgress]);
 
+  useLayoutEffect(() => {
+    if (!ref.current) return;
+    const galleryEls = ref.current.querySelectorAll('.pswp-gallery');
+    if (galleryEls.length === 0) return;
+
+    const lightbox = new PhotoSwipeLightbox({
+      gallery: `[data-gallery-id="${galleryId}"]`,
+      children: 'a',
+      pswpModule: () => import('photoswipe'),
+      padding: { top: 40, bottom: 40, left: 20, right: 20 },
+      zoom: true,
+      closeOnVerticalDrag: true
+    });
+
+    lightbox.init();
+    return () => lightbox.destroy();
+  }, [data, galleryId]);
+
   const heightTransform = useTransform(scrollProgress, [0, 1], [0, height]);
   const opacityTransform = useTransform(scrollProgress, [0, 0.1], [0, 1]);
 
@@ -109,10 +146,9 @@ const TimelineInner = ({ data, title, description }) => {
 
       <div ref={ref} className={style.body}>
         {data.map((item, index) => (
-          <TimelineItem key={index} item={item} />
+          <TimelineItem key={index} item={item} galleryId={galleryId} />
         ))}
 
-        {/* 灰色轨道线 + 彩虹进度线，放在 body 内部，穿过圆点 */}
         <div style={{ height: height + 'px' }} className={style.track}>
           <motion.div
             style={{

@@ -1,6 +1,6 @@
 {
   "name": "@kne/timeline",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "滚动驱动动画的 React 时间线组件，基于 framer-motion，支持响应式布局和国际化",
   "syntax": {
     "esmodules": true
@@ -95,6 +95,7 @@
   },
   "dependencies": {
     "@kne/react-intl": "^0.1.9",
-    "framer-motion": "^12.38.0"
+    "framer-motion": "^12.38.0",
+    "photoswipe": "^5.4.4"
   }
 }
