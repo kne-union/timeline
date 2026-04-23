@@ -1,6 +1,6 @@
 {
   "name": "@kne/timeline",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "滚动驱动动画的 React 时间线组件，基于 framer-motion，支持响应式布局和国际化",
   "syntax": {
     "esmodules": true
