@@ -1,0 +1,20 @@
+{
+  "isFull": false,
+  "list": [
+    {
+      "title": "基础用法",
+      "description": "展示时间线组件的基本用法，支持滚动驱动的进度动画和自定义内容渲染",
+      "code": "./base.js",
+      "scope": [
+        {
+          "name": "_Timeline",
+          "packageName": "@kne/current-lib_timeline",
+          "importStatement": "import * as _Timeline from \"@kne/timeline\""
+        },
+        {
+          "packageName": "@kne/current-lib_timeline/dist/index.css"
+        }
+      ]
+    }
+  ]
+}
