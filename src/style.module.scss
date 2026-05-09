@@ -271,6 +271,13 @@
   }
 }
 
+/* PhotoSwipe scoped 样式 */
+.pswpRoot {
+  :global(.pswp__img) {
+    object-fit: contain;
+  }
+}
+
 /* 彩虹渐变进度线：紫色→蓝色→透明，渐变集中在底部10%，随滚动向下延长 */
 .progress {
   position: absolute;

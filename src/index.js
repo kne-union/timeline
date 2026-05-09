@@ -125,6 +125,7 @@ const TimelineInner = ({ data, title, description }) => {
       gallery: `[data-gallery-id="${galleryId}"]`,
       children: 'a',
       pswpModule: () => import('photoswipe'),
+      mainClass: style.pswpRoot,
       padding: { top: 40, bottom: 40, left: 20, right: 20 },
       zoom: true,
       closeOnVerticalDrag: true
