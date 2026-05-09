@@ -1,8 +1,8 @@
 {
-  "id": "timeline_1_0_1",
-  "name": "timeline_1_0_1",
+  "id": "timeline_1_0_2",
+  "name": "timeline_1_0_2",
   "metaData": {
-    "name": "timeline_1_0_1",
+    "name": "timeline_1_0_2",
     "type": "app",
     "buildInfo": {
       "buildVersion": "0.1.0",
@@ -19,36 +19,35 @@
       "zip": "",
       "api": ""
     },
-    "globalName": "timeline_1_0_1",
-    "pluginVersion": "2.3.3",
-    "prefetchInterface": false,
+    "globalName": "timeline_1_0_2",
+    "pluginVersion": "2.4.0",
     "publicPath": "auto"
   },
   "shared": [
     {
-      "id": "timeline_1_0_1:@kne/current-lib_timeline",
+      "id": "timeline_1_0_2:@kne/current-lib_timeline",
       "name": "@kne/current-lib_timeline",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "singleton": true,
-      "requiredVersion": "^1.0.1",
+      "requiredVersion": "^1.0.2",
       "assets": {
         "js": {
           "async": [],
           "sync": [
-            "static/js/909.0b1eb918.chunk.js"
+            "static/js/909.2f038735.chunk.js"
           ]
         },
         "css": {
           "async": [],
           "sync": [
-            "static/css/909.21c3626b.chunk.css"
+            "static/css/909.7f0374a6.chunk.css"
           ]
         }
       },
       "fallback": ""
     },
     {
-      "id": "timeline_1_0_1:@kne/global-context",
+      "id": "timeline_1_0_2:@kne/global-context",
       "name": "@kne/global-context",
       "version": "1.3.2",
       "singleton": true,
@@ -57,10 +56,10 @@
         "js": {
           "async": [],
           "sync": [
-            "static/js/247.73120f69.chunk.js",
-            "static/js/628.549a2a05.chunk.js",
-            "static/js/257.865431a1.chunk.js",
-            "static/js/638.3b2ad31e.chunk.js"
+            "static/js/247.8c286c40.chunk.js",
+            "static/js/628.9523139e.chunk.js",
+            "static/js/257.03b3aa92.chunk.js",
+            "static/js/638.3cc46295.chunk.js"
           ]
         },
         "css": {
@@ -71,7 +70,7 @@
       "fallback": ""
     },
     {
-      "id": "timeline_1_0_1:@kne/react-fetch",
+      "id": "timeline_1_0_2:@kne/react-fetch",
       "name": "@kne/react-fetch",
       "version": "1.5.5",
       "singleton": true,
@@ -80,8 +79,8 @@
         "js": {
           "async": [],
           "sync": [
-            "static/js/201.252552f2.chunk.js",
-            "static/js/355.d3f0f876.chunk.js"
+            "static/js/201.2240405d.chunk.js",
+            "static/js/355.3c312f14.chunk.js"
           ]
         },
         "css": {
@@ -92,7 +91,7 @@
       "fallback": ""
     },
     {
-      "id": "timeline_1_0_1:@kne/react-intl",
+      "id": "timeline_1_0_2:@kne/react-intl",
       "name": "@kne/react-intl",
       "version": "0.1.12",
       "singleton": true,
@@ -101,8 +100,8 @@
         "js": {
           "async": [],
           "sync": [
-            "static/js/308.a9fbd0c6.chunk.js",
-            "static/js/548.62429855.chunk.js"
+            "static/js/308.ddf20b3c.chunk.js",
+            "static/js/548.0ecc8dac.chunk.js"
           ]
         },
         "css": {
@@ -113,7 +112,7 @@
       "fallback": ""
     },
     {
-      "id": "timeline_1_0_1:@kne/remote-loader",
+      "id": "timeline_1_0_2:@kne/remote-loader",
       "name": "@kne/remote-loader",
       "version": "1.4.6",
       "singleton": true,
@@ -122,8 +121,8 @@
         "js": {
           "async": [],
           "sync": [
-            "static/js/467.58609974.chunk.js",
-            "static/js/848.d79bb43b.chunk.js"
+            "static/js/467.a1a3a013.chunk.js",
+            "static/js/848.c3922149.chunk.js"
           ]
         },
         "css": {
@@ -134,16 +133,16 @@
       "fallback": ""
     },
     {
-      "id": "timeline_1_0_1:antd",
+      "id": "timeline_1_0_2:antd",
       "name": "antd",
-      "version": "6.3.6",
+      "version": "6.3.7",
       "singleton": true,
-      "requiredVersion": "^6.3.6",
+      "requiredVersion": "^6.3.7",
       "assets": {
         "js": {
           "async": [],
           "sync": [
-            "static/js/81.fda3671a.chunk.js"
+            "static/js/419.b70e0841.chunk.js"
           ]
         },
         "css": {
@@ -154,16 +153,16 @@
       "fallback": ""
     },
     {
-      "id": "timeline_1_0_1:axios",
+      "id": "timeline_1_0_2:axios",
       "name": "axios",
-      "version": "1.15.2",
+      "version": "1.16.0",
       "singleton": true,
-      "requiredVersion": "^1.15.2",
+      "requiredVersion": "^1.16.0",
       "assets": {
         "js": {
           "async": [],
           "sync": [
-            "static/js/344.c2056c21.chunk.js"
+            "static/js/753.a2a6086e.chunk.js"
           ]
         },
         "css": {
@@ -174,7 +173,7 @@
       "fallback": ""
     },
     {
-      "id": "timeline_1_0_1:dayjs",
+      "id": "timeline_1_0_2:dayjs",
       "name": "dayjs",
       "version": "1.11.20",
       "singleton": true,
@@ -183,7 +182,7 @@
         "js": {
           "async": [],
           "sync": [
-            "static/js/446.69082961.chunk.js"
+            "static/js/446.df304f8c.chunk.js"
           ]
         },
         "css": {
@@ -194,7 +193,7 @@
       "fallback": ""
     },
     {
-      "id": "timeline_1_0_1:react-dom",
+      "id": "timeline_1_0_2:react-dom",
       "name": "react-dom",
       "version": "18.3.1",
       "singleton": true,
@@ -203,7 +202,7 @@
         "js": {
           "async": [],
           "sync": [
-            "static/js/950.549f7642.chunk.js"
+            "static/js/950.72ca527e.chunk.js"
           ]
         },
         "css": {
@@ -214,7 +213,7 @@
       "fallback": ""
     },
     {
-      "id": "timeline_1_0_1:react-router-dom",
+      "id": "timeline_1_0_2:react-router-dom",
       "name": "react-router-dom",
       "version": "6.30.3",
       "singleton": true,
@@ -223,7 +222,7 @@
         "js": {
           "async": [],
           "sync": [
-            "static/js/245.2a477c0f.chunk.js"
+            "static/js/245.07a39eb2.chunk.js"
           ]
         },
         "css": {
@@ -234,7 +233,7 @@
       "fallback": ""
     },
     {
-      "id": "timeline_1_0_1:react",
+      "id": "timeline_1_0_2:react",
       "name": "react",
       "version": "18.3.1",
       "singleton": true,
@@ -243,8 +242,8 @@
         "js": {
           "async": [],
           "sync": [
-            "static/js/43.a90b802b.chunk.js",
-            "static/js/233.fcad06e3.chunk.js"
+            "static/js/43.07f9161d.chunk.js",
+            "static/js/233.eb944d33.chunk.js"
           ]
         },
         "css": {
@@ -258,24 +257,24 @@
   "remotes": [],
   "exposes": [
     {
-      "id": "timeline_1_0_1:components",
+      "id": "timeline_1_0_2:components",
       "name": "components",
       "assets": {
         "js": {
           "sync": [
-            "static/js/__federation_expose_components.47f958f6.chunk.js"
+            "static/js/__federation_expose_components.4a5e5bb7.chunk.js"
           ],
           "async": [
-            "static/js/904.dad4a55c.chunk.js",
-            "static/js/421.1c695c3e.chunk.js"
+            "static/js/904.d2464bc5.chunk.js",
+            "static/js/421.8f5c26f5.chunk.js"
           ]
         },
         "css": {
           "sync": [
-            "static/css/__federation_expose_components.6cdfdd21.chunk.css"
+            "static/css/__federation_expose_components.b500aa53.chunk.css"
           ],
           "async": [
-            "static/css/909.21c3626b.chunk.css"
+            "static/css/909.7f0374a6.chunk.css"
           ]
         }
       },
