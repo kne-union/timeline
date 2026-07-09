@@ -1,10 +1,59 @@
 {
-  "isFull": false,
+  "isFull": true,
   "list": [
     {
       "title": "基础用法",
-      "description": "展示时间线组件的基本用法，支持滚动驱动的进度动画和自定义内容渲染",
+      "description": "完整展示标题、描述、正文、图片网格与 extra 插槽，模拟产品版本发布 changelog",
       "code": "./base.js",
+      "scope": [
+        {
+          "name": "_Timeline",
+          "packageName": "@kne/current-lib_timeline",
+          "importStatement": "import * as _Timeline from \"@kne/timeline\""
+        },
+        {
+          "packageName": "@kne/current-lib_timeline/dist/index.css"
+        }
+      ]
+    },
+    {
+      "title": "紧凑模式",
+      "description": "通过 compact 属性收紧间距与字号，适合侧栏、抽屉等空间受限场景",
+      "code": "./compact.js",
+      "scope": [
+        {
+          "name": "_Timeline",
+          "packageName": "@kne/current-lib_timeline",
+          "importStatement": "import * as _Timeline from \"@kne/timeline\""
+        },
+        {
+          "packageName": "@kne/current-lib_timeline/dist/index.css"
+        },
+        {
+          "name": "antd",
+          "packageName": "antd"
+        }
+      ]
+    },
+    {
+      "title": "图片预览",
+      "description": "展示 1～4 张图片的不同网格布局，点击可放大预览并左右切换",
+      "code": "./images.js",
+      "scope": [
+        {
+          "name": "_Timeline",
+          "packageName": "@kne/current-lib_timeline",
+          "importStatement": "import * as _Timeline from \"@kne/timeline\""
+        },
+        {
+          "packageName": "@kne/current-lib_timeline/dist/index.css"
+        }
+      ]
+    },
+    {
+      "title": "精简展示",
+      "description": "不传 title / description，仅渲染纯文本节点，适合嵌入已有页面布局",
+      "code": "./minimal.js",
       "scope": [
         {
           "name": "_Timeline",

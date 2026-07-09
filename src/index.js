@@ -2,11 +2,42 @@ import { useMotionValue, useTransform, motion } from 'framer-motion';
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import 'photoswipe/style.css';
+import { MOBILE_BREAKPOINT } from '@kne/responsive-utils';
 import withLocale from './withLocale';
 import style from './style.module.scss';
 
 const MIN_SCALE = 0.7;
 const MAX_SCALE = 1;
+
+const ImageLink = ({ img }) => {
+  const linkRef = useRef(null);
+  const src = typeof img === 'string' ? img : img.src;
+  const alt = typeof img === 'string' ? '' : img.alt || '';
+  const hasProvidedSize = typeof img !== 'string' && img.width && img.height;
+  const fallbackWidth = typeof img === 'string' ? 1200 : img.width || 1200;
+  const fallbackHeight = typeof img === 'string' ? 800 : img.height || 800;
+  const [dims, setDims] = useState({ width: fallbackWidth, height: fallbackHeight });
+
+  const handleImageLoad = e => {
+    if (hasProvidedSize) return;
+    const { naturalWidth, naturalHeight } = e.target;
+    if (naturalWidth <= 0 || naturalHeight <= 0) return;
+    setDims({ width: naturalWidth, height: naturalHeight });
+    if (linkRef.current) {
+      linkRef.current.setAttribute('data-pswp-width', String(naturalWidth));
+      linkRef.current.setAttribute('data-pswp-height', String(naturalHeight));
+    }
+  };
+
+  const width = hasProvidedSize ? img.width : dims.width;
+  const height = hasProvidedSize ? img.height : dims.height;
+
+  return (
+    <a ref={linkRef} className={style.imageLink} href={src} data-pswp-width={width} data-pswp-height={height} data-cropped="true" onClick={e => e.preventDefault()}>
+      <img src={src} alt={alt} className={style.image} loading="lazy" decoding="async" onLoad={handleImageLoad} />
+    </a>
+  );
+};
 
 const TimelineItem = ({ item, galleryId }) => {
   const itemRef = useRef(null);
@@ -43,27 +74,19 @@ const TimelineItem = ({ item, galleryId }) => {
         <div className={style.dotWrapper}>
           <div className={style.dot} />
         </div>
+        <h3 className={style.itemTitleMobile}>{title}</h3>
         <motion.h3 className={style.itemTitleDesktop} style={{ scale: scaleTransform }}>
           {title}
         </motion.h3>
       </div>
 
       <div className={style.content}>
-        <h3 className={style.itemTitleMobile}>{title}</h3>
         {content && <p className={style.contentText}>{content}</p>}
         {images && images.length > 0 && (
           <div className={`${style.imageGrid} pswp-gallery`} data-count={images.length > 4 ? 4 : images.length} data-gallery-id={galleryId}>
-            {images.slice(0, 4).map((img, index) => {
-              const src = typeof img === 'string' ? img : img.src;
-              const alt = typeof img === 'string' ? '' : img.alt || '';
-              const width = typeof img === 'string' ? 1200 : img.width || 1200;
-              const height = typeof img === 'string' ? 800 : img.height || 800;
-              return (
-                <a key={index} className={style.imageLink} href={src} target="_blank" data-pswp-width={width} data-pswp-height={height} data-cropped="true" onClick={e => e.preventDefault()}>
-                  <img src={src} alt={alt} className={style.image} loading="lazy" />
-                </a>
-              );
-            })}
+            {images.slice(0, 4).map((img, index) => (
+              <ImageLink key={index} img={img} />
+            ))}
           </div>
         )}
         {extra && <div className={style.extra}>{extra}</div>}
@@ -72,7 +95,7 @@ const TimelineItem = ({ item, galleryId }) => {
   );
 };
 
-const TimelineInner = ({ data, title, description }) => {
+const TimelineInner = ({ data, title, description, compact = false }) => {
   const ref = useRef(null);
   const [height, setHeight] = useState(0);
   const scrollProgress = useMotionValue(0);
@@ -126,9 +149,30 @@ const TimelineInner = ({ data, title, description }) => {
       children: 'a',
       pswpModule: () => import('photoswipe'),
       mainClass: style.pswpRoot,
-      padding: { top: 40, bottom: 40, left: 20, right: 20 },
+      paddingFn: viewportSize => {
+        const isMobile = viewportSize.x < MOBILE_BREAKPOINT;
+        return {
+          top: isMobile ? 16 : 40,
+          bottom: isMobile ? 16 : 40,
+          left: isMobile ? 12 : 20,
+          right: isMobile ? 12 : 20
+        };
+      },
       zoom: true,
-      closeOnVerticalDrag: true
+      closeOnVerticalDrag: true,
+      imageClickAction: 'zoom-or-close',
+      tapAction: 'toggle-controls'
+    });
+
+    lightbox.addFilter('itemData', itemData => {
+      const img = itemData.element?.querySelector('img');
+      if (!img?.naturalWidth || !img?.naturalHeight) return itemData;
+      return {
+        ...itemData,
+        w: img.naturalWidth,
+        h: img.naturalHeight,
+        thumbCropped: true
+      };
     });
 
     lightbox.init();
@@ -139,7 +183,7 @@ const TimelineInner = ({ data, title, description }) => {
   const opacityTransform = useTransform(scrollProgress, [0, 0.1], [0, 1]);
 
   return (
-    <div className={style.container}>
+    <div className={`${style.container}${compact ? ` ${style.compact}` : ''}`}>
       <div className={style.header}>
         {title && <h2 className={style.headerTitle}>{title}</h2>}
         {description && <p className={style.headerDesc}>{description}</p>}
