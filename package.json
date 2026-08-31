@@ -1,6 +1,6 @@
 {
   "name": "@kne/timeline",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "滚动驱动动画的 React 时间线组件，基于 framer-motion，支持响应式布局和国际化",
   "syntax": {
     "esmodules": true
@@ -81,7 +81,8 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "framer-motion": "^12.40.0"
   },
   "devDependencies": {
     "@kne/microbundle": "^0.15.5",
@@ -96,7 +97,12 @@
   "dependencies": {
     "@kne/react-intl": "^0.1.9",
     "@kne/responsive-utils": "^0.1.9",
-    "framer-motion": "^12.38.0",
+    "framer-motion": "12.40.0",
     "photoswipe": "^5.4.4"
+  },
+  "overrides": {
+    "framer-motion": "12.40.0",
+    "motion-dom": "12.40.0",
+    "motion-utils": "12.39.0"
   }
 }
