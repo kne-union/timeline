@@ -99,6 +99,7 @@
   padding-left: var(--timeline-content-offset);
   font-weight: 700;
   color: #737373;
+  transform-origin: center center;
 
   :global(.dark) & {
     color: #737373;

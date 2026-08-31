@@ -1,4 +1,3 @@
-import { useMotionValue, useTransform, motion } from 'framer-motion';
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import 'photoswipe/style.css';
@@ -41,10 +40,11 @@ const ImageLink = ({ img }) => {
 
 const TimelineItem = ({ item, galleryId }) => {
   const itemRef = useRef(null);
-  const scaleProgress = useMotionValue(MIN_SCALE);
+  const [scale, setScale] = useState(MIN_SCALE);
 
   useLayoutEffect(() => {
-    if (!itemRef.current) return;
+    const el = itemRef.current;
+    if (!el) return;
 
     const thresholds = Array.from({ length: 101 }, (_, i) => i / 100);
 
@@ -55,16 +55,14 @@ const TimelineItem = ({ item, galleryId }) => {
       const midpoint = viewportH * 0.5;
       const itemCenter = rect.top + rect.height * 0.5;
       const distRatio = Math.min(Math.abs(midpoint - itemCenter) / (viewportH * 0.5), 1);
-      const scale = MIN_SCALE + (MAX_SCALE - MIN_SCALE) * (1 - distRatio);
-      scaleProgress.set(scale);
+      setScale(MIN_SCALE + (MAX_SCALE - MIN_SCALE) * (1 - distRatio));
     };
 
     const observer = new IntersectionObserver(updateScale, { threshold: thresholds });
-    observer.observe(itemRef.current);
+    observer.observe(el);
+    updateScale();
     return () => observer.disconnect();
-  }, [scaleProgress]);
-
-  const scaleTransform = useTransform(scaleProgress, [MIN_SCALE, MAX_SCALE], [MIN_SCALE, MAX_SCALE]);
+  }, []);
 
   const { title, content, images, extra } = item;
 
@@ -75,9 +73,9 @@ const TimelineItem = ({ item, galleryId }) => {
           <div className={style.dot} />
         </div>
         <h3 className={style.itemTitleMobile}>{title}</h3>
-        <motion.h3 className={style.itemTitleDesktop} style={{ scale: scaleTransform }}>
+        <h3 className={style.itemTitleDesktop} style={{ transform: `scale(${scale})` }}>
           {title}
-        </motion.h3>
+        </h3>
       </div>
 
       <div className={style.content}>
@@ -98,7 +96,7 @@ const TimelineItem = ({ item, galleryId }) => {
 const TimelineInner = ({ data, title, description, compact = false }) => {
   const ref = useRef(null);
   const [height, setHeight] = useState(0);
-  const scrollProgress = useMotionValue(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const galleryId = useRef(`pswp-gallery-${Math.random().toString(36).substr(2, 9)}`).current;
 
   useLayoutEffect(() => {
@@ -128,7 +126,7 @@ const TimelineInner = ({ data, title, description, compact = false }) => {
       const midpoint = viewportH * 0.5;
       const scrolledInBody = midpoint - bodyRect.top;
       const progress = Math.min(Math.max(scrolledInBody / bodyRect.height, 0), 1);
-      scrollProgress.set(progress);
+      setScrollProgress(progress);
     };
 
     const observer = new IntersectionObserver(updateProgress, {
@@ -136,8 +134,9 @@ const TimelineInner = ({ data, title, description, compact = false }) => {
     });
 
     items.forEach(item => observer.observe(item));
+    updateProgress();
     return () => observer.disconnect();
-  }, [data, scrollProgress]);
+  }, [data]);
 
   useLayoutEffect(() => {
     if (!ref.current) return;
@@ -179,8 +178,8 @@ const TimelineInner = ({ data, title, description, compact = false }) => {
     return () => lightbox.destroy();
   }, [data, galleryId]);
 
-  const heightTransform = useTransform(scrollProgress, [0, 1], [0, height]);
-  const opacityTransform = useTransform(scrollProgress, [0, 0.1], [0, 1]);
+  const progressHeight = scrollProgress * height;
+  const progressOpacity = scrollProgress <= 0 ? 0 : scrollProgress >= 0.1 ? 1 : scrollProgress / 0.1;
 
   return (
     <div className={`${style.container}${compact ? ` ${style.compact}` : ''}`}>
@@ -195,10 +194,10 @@ const TimelineInner = ({ data, title, description, compact = false }) => {
         ))}
 
         <div style={{ height: height + 'px' }} className={style.track}>
-          <motion.div
+          <div
             style={{
-              height: heightTransform,
-              opacity: opacityTransform
+              height: progressHeight,
+              opacity: progressOpacity
             }}
             className={style.progress}
           />
